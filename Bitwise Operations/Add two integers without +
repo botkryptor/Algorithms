@@ -1,0 +1,30 @@
+while(b)
+    {
+        // a & b = bits that are 1 in both numbers.
+        // Then I shift it one left to define the number to add to the sum in the
+        // next iteration
+        
+        // Unsigned cast: We need to shift the and's results with respect to unsigned bits
+        // The "carry" variable defines which bits will be added in the next iteration regardless of the sign
+        unsigned int carry = (unsigned)(a & b) << 1;
+        
+        // Bits that are different in both.
+        // Think of this as addition without carries
+        // That's why overriding a is safe
+        // The new value contains the sum and we calculated the carry above so we got all we need
+        a = a ^ b;
+        
+        // Now we have both the carry and the sum. In the next iteration we need to add them to each other again
+        // Since final sum = sum without carry + carry
+        // and since the logic above is a + b and we have sum without carry stored in a
+        // we need to store the carry in b
+        b = carry;
+        
+        // So in the next iteration it'll be the addition of sum w/o carry + carry
+        // The reason why it's a loop is because there could be new carry coming out of it
+        // So we need to do this until there are no more carries
+        
+    }
+    
+    return a; 
+}
