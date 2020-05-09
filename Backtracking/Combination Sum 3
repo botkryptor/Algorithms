@@ -1,0 +1,41 @@
+class Solution {
+public:
+    
+    int search(vector<vector<int>> ans, vector<int> curr)
+    {
+        if(ans.size()==0) return 1;
+        if (ans.size()==1 &&ans[0]==curr) return 0;
+        for(int i=0;i<ans.size();i++)
+        {
+            if(ans[i]==curr) return 0;
+        }
+        return 1;
+    }
+    void helper(int k, int n, vector<vector<int> > &ans, vector<int> curr, int it)
+    {
+        if(curr.size()==k)
+        {
+            if ((n==0) && search(ans,curr))
+                ans.push_back(curr);
+           
+            return;        
+        }
+        if(n<0) return;
+        
+        
+        for(int i=it;i<=9;i++)
+        {
+            curr.push_back(i);
+            helper(k,n-i,ans,curr, i+1);
+            curr.pop_back();
+        }
+        
+    }
+    vector<vector<int>> combinationSum3(int k, int n) {
+        
+        vector<vector<int> > ans;
+        vector<int> curr;
+        helper(k,n,ans, curr,1);
+        return ans;
+    }
+};
