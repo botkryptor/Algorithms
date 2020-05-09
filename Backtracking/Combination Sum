@@ -1,0 +1,47 @@
+int search( vector<vector<int>> &ans, vector<int> &curr ){
+
+if( ans.empty() )
+    return 1;   //INSERT
+    
+if( ans.size() == 1 && ans[0] != curr )
+    return 1;   //INSERT
+
+for( int temp=0; temp<ans.size(); temp++ ){
+        
+    if( curr == ans[temp])
+        return 0;
+}
+return 1;
+}
+
+void subsetsum( int it, vector<int> &A, int B, vector<vector<int>> &ans, vector<int> curr ){
+
+if( B <= 0 ){
+    
+    if( B == 0 ){
+        
+        int ip = search( ans, curr );
+        
+        if( ip )
+            ans.push_back(curr);
+    }
+    
+    return;
+}
+
+  for( int i=it; i<A.size(); i++ ){
+    
+    curr.push_back( A[i] );
+    subsetsum( i, A, B-A[i], ans, curr );
+    curr.pop_back();
+  }
+}
+
+vector<vector<int> > Solution::combinationSum(vector<int> &A, int B) {
+
+vector<vector<int> > ans;
+vector<int> curr;
+sort( A.begin(), A.end() );
+subsetsum( 0, A, B, ans, curr);
+return ans;
+}
