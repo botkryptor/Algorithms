@@ -1,0 +1,33 @@
+void findcomb(int it, vector<int> &A, int B, vector<vector<int> > &ans, vector<int> curr)
+{
+    if(B==0)
+    {
+        for(int i=0;i<ans.size();i++)
+        {
+            if(ans[i]==curr) return;
+        }
+        
+        ans.push_back(curr);
+        return;
+    }
+    
+    if(B<0) return;
+    
+    for(int i=it;i<A.size();i++)
+    {
+        curr.push_back(A[i]);
+        findcomb(i+1,A,B-A[i],ans,curr);
+        curr.pop_back();
+    }
+}
+
+
+
+vector<vector<int> > Solution::combinationSum(vector<int> &A, int B) {
+    
+    vector<vector<int>> ans;
+    vector<int> curr;
+    sort( A.begin(), A.end() );
+    findcomb( 0, A, B, ans, curr );
+    return ans;
+}
