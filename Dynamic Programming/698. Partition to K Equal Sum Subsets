@@ -1,0 +1,39 @@
+/*
+Given an array of integers nums and a positive integer k, find whether it's possible to divide this array into k non-empty subsets whose sums are all equal.
+
+ 
+
+Example 1:
+
+Input: nums = [4, 3, 2, 3, 5, 2, 1], k = 4
+Output: True
+Explanation: It's possible to divide it into 4 subsets (5), (1, 4), (2,3), (2,3) with equal sums.
+
+*/
+
+class Solution {
+public:
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        
+        vector<int> dp((1<<16)+2, -1);
+        int n=nums.size();        
+        dp[0]=0;
+        int sum=0;
+        for(auto i:nums) sum+=i;
+        if(sum%k!=0) return 0;
+        int target=sum/k;
+        for(int mask=0;mask<(1<<n);mask++)
+        {
+            if(dp[mask]==-1) continue;
+            for(int i=0;i<n;i++)
+            {
+                if(!(mask &(1<<i)) && dp[mask]+nums[i]<=target)
+                {
+                    dp[mask|(1<<i)]=(dp[mask]+nums[i])%target;
+                }
+            }
+        }
+        
+        return dp[(1<<n)-1]==0;
+    }
+};
