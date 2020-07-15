@@ -1,0 +1,65 @@
+/*
+Given an input string, reverse the string word by word.
+
+ 
+
+Example 1:
+
+Input: "the sky is blue"
+Output: "blue is sky the"
+Example 2:
+
+Input: "  hello world!  "
+Output: "world! hello"
+Explanation: Your reversed string should not contain leading or trailing spaces.
+Example 3:
+
+Input: "a good   example"
+Output: "example good a"
+Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
+ 
+*/
+
+class Solution {
+public:
+    string reverseWords(string s) {
+        if(s.size()==0) return s;
+        if(s.size()==1 && s[0]==' ') return "";
+        if(s.size()==1) return s;
+        string ans="";
+        vector<string> m;
+        int flag=0;
+        int i=0;
+        string temp;
+        while(1)
+        {
+             while(s[i]==' ' && i<s.size()) i++;
+         
+             while(s[i]!=' ' && i<s.size())
+              {
+                temp.push_back(s[i]);
+                i++;
+                flag=1;
+              }
+            if(s[i]==' ')
+            {
+                m.push_back(temp);
+                temp="";
+                
+            }
+            if(i==s.size()) break;
+        }
+        if(flag==0) return "";
+        m.push_back(temp);
+        
+        for(auto i=m.rbegin();i!=m.rend();i++)
+        {
+            ans+=*i;
+            ans+=' ';
+        }
+        while(ans[ans.size()-1]==' ') ans.pop_back();
+        while(ans[0]==' ') ans.erase(0,1);
+        return ans;
+        
+    }
+};
