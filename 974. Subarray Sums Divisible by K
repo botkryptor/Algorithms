@@ -1,0 +1,30 @@
+/*
+Given an array A of integers, return the number of (contiguous, non-empty) subarrays that have a sum divisible by K.
+
+ 
+
+Example 1:
+
+Input: A = [4,5,0,-2,-3,1], K = 5
+Output: 7
+Explanation: There are 7 subarrays with a sum divisible by K = 5:
+[4, 5, 0, -2, -3, 1], [5], [5, 0], [5, 0, -2, -3], [0], [0, -2, -3], [-2, -3]
+*/
+
+class Solution {
+public:
+    int subarraysDivByK(vector<int>& A, int K) {
+        vector<int> counts(K,0);
+        int sum=0;
+        for(int x:A){
+            sum+=(x%K + K)%K;     // running sum, +k done so that sum is not negative ever
+            counts[sum%K]++;        // count of a specific sum between 0...k increased
+        }
+        int result=0;
+        for(int c:counts)
+        {
+            result += c*(c-1)/2;     // choose 2 out of n possibles, i.e. nc2
+        }
+        return result+counts[0];    // for 0 remainder sums, they are already divisible by k, so add them 
+    }
+};
