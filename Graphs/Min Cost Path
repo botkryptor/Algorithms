@@ -31,7 +31,6 @@ Return an integer denoting the minimum cost to travel from top-left corner to bo
 
 Example Input
 Input:1
-
  A = 3
  B = 3
  C = ["RRR","DDD","UUU"]
