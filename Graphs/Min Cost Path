@@ -1,0 +1,73 @@
+/*
+You are given a AB character matrix named C. Every cell in C has a character U,R,L or D indicating up,right,left and down.
+
+Your target is to go from top left corner to the bottom right corner of the matrix.
+
+But there are some restrictions while moving along the matrix:
+
+If you follow what is written in the cell then you can move freely.
+But if you don't follow what is written in the cell then you have to pay 1 unit of cost.
+Like: If a cell contains character U and you go right instead of Up you have to pay 1 unit of cost.
+
+So your task is to find the minimum cost to go from top-left corner to the bottom-right corner.
+
+
+
+Problem Constraints
+1 <= A,B <= 103
+C[i][j] can be either U,R,L or D.
+
+
+Input Format
+First Argument represents a integer A (number of rows).
+Second Argument represents a integer B (number of columns).
+Third Argument represents a string array C which contains A strings each of length B.
+
+
+Output Format
+Return an integer denoting the minimum cost to travel from top-left corner to bottom-right corner.
+
+
+
+Example Input
+Input:1
+
+ A = 3
+ B = 3
+ C = ["RRR","DDD","UUU"]
+Input:2
+
+ A = 1
+ B = 4
+ C = ["LLLL"]
+*/
+
+#define tp tuple<int,int,int>
+bool isSafe(int i,int j,int upx,int upy)
+{
+    return (i>=0)&&(i<upx)&&(j>=0)&&(j<upy);
+}
+int Solution::solve(int A, int B, vector<string> &C) {
+    deque<tp> q;
+    vector<vector<bool>> visited(A,vector<bool> (B,false));
+    q.push_front({0,0,0});
+    unordered_map<char,pair<int,int>> steps;
+    steps.insert({'U',make_pair(-1,0)}),steps.insert({'D',make_pair(1,0)}),steps.insert({'L',make_pair(0,-1)}),steps.insert({'R',make_pair(0,1)});
+    while(!q.empty())
+    {
+        auto [cost,i,j]=q.front();
+        q.pop_front();
+        visited[i][j]=true;
+        if(i==A-1&&j==B-1) return cost;
+        for(auto x : steps)
+        {
+            int n_x=i+x.second.first,n_y=j+x.second.second;
+            if(isSafe(n_x,n_y,A,B)&&!visited[n_x][n_y])
+            {
+                if(C[i][j]==x.first) q.push_front({cost,n_x,n_y});
+                else q.push_back({cost+1,n_x,n_y});
+            }
+        }
+    }
+    return -1;
+}
