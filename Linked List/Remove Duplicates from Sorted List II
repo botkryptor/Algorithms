@@ -1,0 +1,26 @@
+/*
+Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.
+
+For example,
+Given 1->2->3->3->4->4->5, return 1->2->5.
+Given 1->1->1->2->3, return 2->3.
+*/
+
+typedef ListNode node;
+ListNode* Solution::deleteDuplicates(ListNode* A)
+{
+node* dummy = new node(-1);
+dummy->next=A;
+node *p=dummy;
+while(p->next)
+{
+node *n=p->next;
+while(n->next && n->val==n->next->val)
+n=n->next;
+if(p->next!=n)
+p->next=n->next;
+else
+p=n;
+}
+return dummy->next;
+}
