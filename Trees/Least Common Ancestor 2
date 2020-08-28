@@ -1,0 +1,106 @@
+/*
+Find the lowest common ancestor in an unordered binary tree given two values in the tree.
+
+ Lowest common ancestor : the lowest common ancestor (LCA) of two nodes v and w in a tree or directed acyclic graph (DAG) is the lowest (i.e. deepest) node that has both v and w as descendants. 
+Example :
+
+
+        _______3______
+       /              \
+    ___5__          ___1__
+   /      \        /      \
+   6      _2_     0        8
+         /   \
+         7    4
+For the above tree, the LCA of nodes 5 and 1 is 3.
+
+ LCA = Lowest common ancestor 
+Please note that LCA for nodes 5 and 4 is 5.
+
+You are given 2 values. Find the lowest common ancestor of the two nodes represented by val1 and val2
+No guarantee that val1 and val2 exist in the tree. If one value doesn’t exist in the tree then return -1.
+There are no duplicate values.
+You can use extra memory, helper functions, and can modify the node struct but, you can’t add a parent pointer.
+*/
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ * 
+ * 
+ */
+void findpath(TreeNode* A,int B, vector<int> curr,bool &flag,vector<int> &ans){
+    if(A==NULL) return;
+    if(flag) return;
+    curr.push_back(A->val);
+    if(A->val==B){
+        flag=1;
+        ans=curr;
+        return;
+    }
+    findpath(A->left,B,curr,flag,ans);
+    findpath(A->right,B,curr,flag,ans);
+    
+}
+void inorder(TreeNode*A,int B,int C,bool &flag1,bool &flag2){
+    if(A==NULL){
+        return;
+    }
+    if(A->val==B){
+        flag1=true;
+    }
+    if(A->val==C){
+        flag2=true;
+    }
+    
+     inorder(A->left,B,C,flag1,flag2);
+     inorder(A->right,B,C, flag1,flag2);
+     
+     return;
+}
+ 
+int Solution::lca(TreeNode* root, int B, int C) {
+    if(root==NULL) return -1;
+    bool flag1=0, flag2=0;
+    inorder(root,B,C,flag1,flag2);
+
+    if(!flag1 || !flag2){
+        return -1;
+    }
+    vector<int> v1;
+    vector<int > v2;
+    vector<int> ans1;
+    vector<int> ans2;
+
+    flag1=false;
+    flag2=false;
+
+    // It will give path of the Node B
+    // this is same as path to Given Node(InterviewBit Question)
+    findpath(root,B,v1,flag1,ans1);
+    // It will give path of the Node B
+    findpath(root,C,v2,flag2,ans2);
+    int i=0;
+    int j=0;
+    int res1=0;
+    int res2=0;
+
+    while(i<ans1.size() && j<ans2.size() && ans1[i]==ans2[j]){
+        res1=i;
+        res2=j;
+        i++;
+        j++;
+    }
+
+// we can return ans2[res2] also
+    return ans1[res1];
+
+    
+    
+    
+}
+
