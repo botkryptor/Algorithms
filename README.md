@@ -10,4 +10,4 @@ Follow me on-
 [CodeForces](https://codeforces.com/profile/botkryptor)<br>
 [Instagram](https://www.instagram.com/_a.ni.m.es.h_/)
 
-![local image](/Users/botkryptor/Documents/Screenshots/botkryptor.png)
+<!--![local image](/Users/botkryptor/Documents/Screenshots/botkryptor.png) !-->
